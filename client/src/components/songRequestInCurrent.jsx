@@ -26,7 +26,7 @@ export default function SongRequestInCurrent() {
             .catch(function (erreur) {
                 console.log(erreur);
             });
-    });
+    }, []);
 
     // Fonction pour désactivé le vote
     const votingDisable = (id) => {
@@ -57,70 +57,76 @@ export default function SongRequestInCurrent() {
         })
         forceUpdate();
     };
-    function compare(a, b) {
-        if (a.countVote > b.countVote) {
-            return -1;
-        }
-        if (a.countVote < b.countVote) {
-            return 1;
-        }
-        return 0;
-    }
-    songs.sort(compare);
+    console.log('trié', songs.sort((a, b) =>
+        a.countVote > b.countVote
+            ? -1
+            : b.countVote > a.countVote
+            ? 1
+            : 0
+    ))
+
     return (
         <div className="bg-white shadow overflow-hidden sm:rounded-md">
             <ul className="divide-y divide-gray-200">
                 {isLoading
-                    ? songs.map((song) => (
-                        <li key={song.id}>
-                            <div className="flex items-center px-4 py-4 sm:px-6">
-                                <div className="min-w-0 flex-1 flex items-center">
-                                    <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-3 md:gap-4">
-                                        <p className="capitalize text-sm font-medium text-gray-800 md:col-span-3">
-                                            {song.name} - {song.artist}
-                                        </p>
+                    ? songs
+                        .sort((a, b) =>
+                            a.countVote > b.countVote
+                                ? -1
+                                : b.countVote > a.countVote
+                                ? 1
+                                : 0
+                        )
+                        .map((song) => (
+                            <li key={song.id}>
+                                <div className="flex items-center px-4 py-4 sm:px-6">
+                                    <div className="min-w-0 flex-1 flex items-center">
+                                        <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-3 md:gap-4">
+                                            <p className="capitalize text-sm font-medium text-gray-800 md:col-span-3">
+                                                {song.name} - {song.artist}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="min-w-0 flex-1 flex items-center">
-                                    <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
-                                        <p className="capitalize text-sm font-medium text-gray-500 truncate">
-                                            Vote: {song.countVote}
-                                        </p>
+                                    <div className="min-w-0 flex-1 flex items-center">
+                                        <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
+                                            <p className="capitalize text-sm font-medium text-gray-500 truncate">
+                                                Vote: {song.countVote}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="min-w-0 flex-1 flex items-center">
-                                    <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-3 md:gap-4">
-                                        {song.unavailable === "false" ?
-                                            votingDisable(song.id) ? (
+                                    <div className="min-w-0 flex-1 flex items-center">
+                                        <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-3 md:gap-4">
+                                            {song.unavailable === "false" ?
+                                                votingDisable(song.id) ? (
+                                                    <div
+
+                                                        className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-400 bg-gray-100"
+                                                    >
+                                                        Voté!
+                                                    </div>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleVote(song.id, song.countVote)}
+                                                        type="button"
+                                                        className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                    >
+                                                        Voter
+                                                    </button>
+                                                )
+                                                :
                                                 <div
 
                                                     className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-400 bg-gray-100"
                                                 >
-                                                    Voté!
+                                                    <div>Indiponible!</div>
+
                                                 </div>
-                                            ) : (
-                                                <button
-                                                    onClick={() => handleVote(song.id, song.countVote)}
-                                                    type="button"
-                                                    className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                >
-                                                    Voter
-                                                </button>
-                                            )
-                                            :
-                                            <div
-
-                                                className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-400 bg-gray-100"
-                                            >
-                                                <div>Indiponible!</div>
-
-                                            </div>
-                                        }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    ))
+                            </li>
+                        ))
                     : null}
             </ul>
         </div>

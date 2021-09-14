@@ -2,7 +2,7 @@ import {Switch, BrowserRouter as Router} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {FETCH} from "./FETCH";
-import Home from "./Pages/home";
+import Home from "./Pages/Home";
 import SongRequest from "./Pages/songRequest";
 import Login from "./Pages/login";
 import Layout from "./Pages/admin/layout";
@@ -12,9 +12,6 @@ import RouteAdmin from "./router/RouteAdmin";
 
 function App() {
     const [isAuthVerify, setAuth] = useState(false);
-    const [app, setApp] = useState({});
-    const [appLoad, setAppLoad] = useState(false);
-
 
     const verifyToken = () => {
         const token = localStorage.getItem("token");
@@ -40,18 +37,6 @@ function App() {
             console.log('il ny a pas de token')
         }
     }
-    //Verification de la soirée
-    useEffect(() => {
-        axios
-            .get(`${FETCH}/app`)
-            .then((res) => {
-                setApp(res.data[0]);
-                setAppLoad(true);
-            })
-            .catch(function (erreur) {
-                console.log(erreur);
-            });
-    }, [])
 
     useEffect(() => {
         verifyToken();
@@ -62,7 +47,6 @@ function App() {
         <div className="">
             <Router>
                 <Switch>
-
                     <RouteVisitor exact path="/" component={Home}/>
                     <RouteVisitor path="/songrequest" component={SongRequest}/>
                     <RouteLogin path="/login" component={Login} isAuth={isAuthVerify}/>

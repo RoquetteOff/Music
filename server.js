@@ -4,7 +4,7 @@ const app = require('./app');
 const bcrypt = require('bcrypt');
 
 
-app.listen(PORT, async (err) => {
+app.listen(PORT, (err) => {
     if (err) {
         console.error(`Error: ${err.message}`);
     } else {
