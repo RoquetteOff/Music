@@ -1,35 +1,37 @@
 {
-  "name": "music",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "watch": "nodemon server.js",
-    "client": "cd client && npm start",
-    "install-client": "cd client && npm install",
-    "build": "cd client && npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FlorianBEME/Music.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/FlorianBEME/Music/issues"
-  },
-  "homepage": "https://github.com/FlorianBEME/Music#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
-    "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1",
-    "uuidv4": "^6.2.12"
-  }
+    "name": "music",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
+        "watch": "nodemon server.js",
+        "client": "cd client && npm start",
+        "install-client": "cd client && npm install",
+        "build": "cd client && npm run build",
+        "dev": "concurrently \"npm start\" \"npm run client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/FlorianBEME/Music.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/FlorianBEME/Music/issues"
+    },
+    "homepage": "https://github.com/FlorianBEME/Music#readme",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.1",
+        "express-session": "^1.17.2",
+        "jsonwebtoken": "^8.5.1",
+        "mysql": "^2.18.1",
+        "nodemon": "^2.0.12",
+        "uuidv4": "^6.2.12"
+    }
 }

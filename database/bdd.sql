@@ -1,0 +1,36 @@
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SET GLOBAL time_zone = '+1:00';
+SET FOREIGN_KEY_CHECKS = 0;
+SET GROUP_CONCAT_MAX_LEN=32768;
+SET @tables = NULL;
+SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
+  FROM information_schema.tables
+  WHERE table_schema = (SELECT DATABASE());
+SELECT IFNULL(@tables,'dummy') INTO @tables;
+SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `currentsongs` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `artist` varchar(255) NOT NULL,
+  `countVote` varchar(255) NOT NULL,
+  `unavailable` varchar(255) NOT NULL
+);
+
+CREATE TABLE `app` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `text` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL
+);
+
+CREATE TABLE `users` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(255) NOT NULL,
+  `user_password` varchar(255) NOT NULL
+);
+
+INSERT INTO users ( user_name , user_password ) VALUES ("Admin","$2b$10$JUSYergtljIPNe5tHsccGu4KUt7xDR37jBvENrpox1CJdx4wUte0C");
