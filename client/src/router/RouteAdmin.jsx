@@ -1,31 +1,44 @@
-import {Switch, Route, Redirect} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import AdminNavBar from "../components/admin/AdminNavBar";
+import { Fragment } from "react";
 
-const RouteAdmin = ({component: Component, isAuth, ...rest}) => {
-    return (
-        <div>
-            <Switch>
+const RouteAdmin = ({ component: Component, isAuth, ...rest }) => {
+  return (
+    <div>
+      <Switch>
+        <Route
+          {...rest}
+          render={(props) => {
+            if (isAuth) {
+              return (
                 <Route
-                    {...rest}
-                    render={(props) => {
-                        if (isAuth) {
-                            return <Component {...rest} {...props} />;
-                        } else {
-                            return (
-                                <Redirect
-                                    to={{
-                                        pathname: "/login",
-                                        state: {
-                                            from: props.location,
-                                        },
-                                    }}
-                                />
-                            );
-                        }
-                    }}
+                  {...rest}
+                  render={(props) => (
+                    <Fragment>
+                      <AdminNavBar />
+                      <Component {...props} />
+                    </Fragment>
+                  )}
                 />
-            </Switch>
-        </div>
-    );
+              );
+              //   return <Component {...rest} {...props} />;
+            } else {
+              return (
+                <Redirect
+                  to={{
+                    pathname: "/login",
+                    state: {
+                      from: props.location,
+                    },
+                  }}
+                />
+              );
+            }
+          }}
+        />
+      </Switch>
+    </div>
+  );
 };
 
 export default RouteAdmin;
