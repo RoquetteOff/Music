@@ -1,6 +1,6 @@
 const { connection } = require("../db_connection");
 const router = require("express").Router();
-const { verifyJWT } = require("../middlewares/isuserauth.js");
+const { verifyJWT } = require("../middlewares/isuserauth");
 
 router.get("/", (req, res) => {
   const sql = "SELECT * FROM app";
@@ -44,8 +44,8 @@ router.put("/:id", (req, res) => {
   });
 });
 
-router.delete("/", verifyJWT, (req, res) => {
-  const sql = "TRUNCATE TABLE app";
+router.delete("/remove/all", verifyJWT, (req, res) => {
+  const sql = "TRUNCATE TABLE app;TRUNCATE TABLE currentsongs";
   connection.query(sql, (err, results) => {
     if (err) {
       res.status(500).send({ errorMessage: err.message });

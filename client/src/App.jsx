@@ -44,11 +44,10 @@ function App() {
     axios
       .get(`${FETCH}/app`)
       .then((response) => {
-        console.log(response.data);
         let result = response.data.filter((res) => res.type === "name");
         newEvent = result[0].text;
         if (nameEvent) {
-          if (newEvent != nameEvent) {
+          if (newEvent !== nameEvent) {
             localStorage.removeItem("idMusicVoting");
             localStorage.setItem("nameEvent", newEvent);
           }

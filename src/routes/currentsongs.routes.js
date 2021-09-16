@@ -55,15 +55,4 @@ router.delete("/:id", verifyJWT, (req, res) => {
   });
 });
 
-router.delete("/remove/all", verifyJWT, (req, res) => {
-  const sql = "TRUNCATE TABLE currentsongs";
-  connection.query(sql, (err, results) => {
-    if (err) {
-      res.status(500).send({ errorMessage: err.message });
-    } else {
-      res.sendStatus(200);
-    }
-  });
-});
-
 module.exports = router;
