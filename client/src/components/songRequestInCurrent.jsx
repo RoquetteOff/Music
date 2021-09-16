@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FETCH } from "../FETCH";
 
-export default function SongRequestInCurrent() {
+export default function SongRequestInCurrent(props) {
   // Hook pour le rendu du composant
   function useForceUpdate() {
     const [value, setValue] = useState(0); // integer state
@@ -10,23 +10,6 @@ export default function SongRequestInCurrent() {
   }
 
   const forceUpdate = useForceUpdate();
-
-  // useState
-  const [songs, setSongs] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-
-  //Fecth liste de musique
-  useEffect(() => {
-    axios
-      .get(`${FETCH}/currentSongs`)
-      .then((res) => {
-        setSongs(res.data);
-        setLoading(true);
-      })
-      .catch(function (erreur) {
-        console.log(erreur);
-      });
-  });
 
   // Fonction pour désactivé le vote
   const votingDisable = (id) => {
@@ -66,8 +49,8 @@ export default function SongRequestInCurrent() {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <ul className="divide-y divide-gray-200">
-        {isLoading
-          ? songs
+        {props.isLoading
+          ? props.songs
               .sort((a, b) =>
                 a.countVote > b.countVote
                   ? -1
@@ -94,7 +77,7 @@ export default function SongRequestInCurrent() {
                     </div>
                     <div className="min-w-0 flex-1 flex items-center">
                       <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-3 md:gap-4">
-                        {song.unavailable === "false" ? (
+                        {song.unavailable === 0 ? (
                           votingDisable(song.id) ? (
                             <div className="col-start-2 col-span-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-400 bg-gray-100">
                               Voté!

@@ -18,7 +18,7 @@ CREATE TABLE `currentsongs` (
   `name` varchar(255) NOT NULL,
   `artist` varchar(255) NOT NULL,
   `countVote` varchar(255) NOT NULL,
-  `unavailable` varchar(255) NOT NULL
+  `unavailable` boolean NOT NULL
 );
 
 CREATE TABLE `app` (
