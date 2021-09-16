@@ -1,57 +1,58 @@
-const {connection} = require('../db_connection');
-const router = require('express').Router();
-const {verifyJWT} = require("../middlewares/isuserauth.js")
+const { connection } = require("../db_connection");
+const router = require("express").Router();
+const { verifyJWT } = require("../middlewares/isuserauth.js");
 
-
-router.get('/', (req, res) => {
-    const sql = "SELECT * FROM users";
-    connection.query(sql, (err, results) => {
-        if (err) {
-            res.status(500).send({errorMessage: err.message});
-        } else {
-            res.status(200).json(results);
-        }
-    });
+router.get("/", (req, res) => {
+  const sql = "SELECT * FROM users";
+  connection.query(sql, (err, results) => {
+    if (err) {
+      res.status(500).send({ errorMessage: err.message });
+    } else {
+      res.status(200).json(results);
+    }
+  });
 });
 
-router.post('/', verifyJWT, (req, res) => {
-    const sql = "INSERT INTO users SET ?";
-    connection.query(sql, req.body, (err, results) => {
-        if (err) {
-            res.status(500).send({errorMessage: err.message});
-        } else {
-            res.status(201).json({id: results.insertId, ...req.body});
-        }
-    });
+router.post("/", verifyJWT, (req, res) => {
+  const sql = "INSERT INTO users SET ?";
+  connection.query(sql, req.body, (err, results) => {
+    if (err) {
+      res.status(500).send({ errorMessage: err.message });
+    } else {
+      res.status(201).json({ id: results.insertId, ...req.body });
+    }
+  });
 });
 
-router.put('/:id', verifyJWT, (req, res) => {
-    let sql = "UPDATE users SET ? WHERE id=?";
-    connection.query(sql, [req.body, req.params.id], (err, results) => {
-        if (err) {
-            res.status(500).send({errorMessage: err.message});
+router.put("/:id", verifyJWT, (req, res) => {
+  let sql = "UPDATE users SET ? WHERE id=?";
+  connection.query(sql, [req.body, req.params.id], (err, results) => {
+    if (err) {
+      res.status(500).send({ errorMessage: err.message });
+    } else {
+      sql = "SELECT * FROM users WHERE id=?";
+      connection.query(sql, req.params.id, (err, result) => {
+        if (result.length === 0) {
+          res.status(404).send({
+            errorMessage: `Question with id ${req.params.id} not found`,
+          });
         } else {
-            sql = "SELECT * FROM users WHERE id=?";
-            connection.query(sql, req.params.id, (err, result) => {
-                if (result.length === 0) {
-                    res.status(404).send({errorMessage: `Question with id ${req.params.id} not found`});
-                } else {
-                    res.status(200).json(result[0]);
-                }
-            });
+          res.status(200).json(result[0]);
         }
-    });
+      });
+    }
+  });
 });
 
-router.delete('/:id', verifyJWT, (req, res) => {
-    const sql = "DELETE FROM users WHERE id=?";
-    connection.query(sql, req.params.id, (err, results) => {
-        if (err) {
-            res.status(500).send({errorMessage: err.message});
-        } else {
-            res.sendStatus(200);
-        }
-    });
+router.delete("/:id", verifyJWT, (req, res) => {
+  const sql = "DELETE FROM users WHERE id=?";
+  connection.query(sql, req.params.id, (err, results) => {
+    if (err) {
+      res.status(500).send({ errorMessage: err.message });
+    } else {
+      res.sendStatus(200);
+    }
+  });
 });
 
 module.exports = router;
