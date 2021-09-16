@@ -4,29 +4,36 @@ import PictureLayout from "../../components/admin/PictureLayout";
 
 export var AdminRoutes = [
   {
+    id: 1,
     path: "/dashboard/music",
     name: "Music",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: MusicLayout,
   },
   {
+    id: 2,
     path: "/dashboard/picture",
     name: "Picture",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: PictureLayout,
   },
   {
+    id: 3,
     path: "/dashboard/event",
     name: "Event",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: EventLayout,
   },
-  //   {
-  //     path: "/panel",
-  //     pathTo: "/dashboard/",
-  //     name: "Dashboard",
-  //     redirect: true,
-  //   },
+  {
+    id: 4,
+    path: "/dashboard",
+    pathTo: "/dashboard/music",
+    name: "Dashboard",
+    redirect: true,
+  },
 ];
 
 export default AdminRoutes;
