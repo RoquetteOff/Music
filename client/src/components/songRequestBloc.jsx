@@ -21,7 +21,7 @@ export default function SongRequestBloc() {
       .catch(function (erreur) {
         console.log(erreur);
       });
-  }, []);
+  });
 
   return (
     <div className="pb-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-10  lg:rounded-md bg-white shadow">

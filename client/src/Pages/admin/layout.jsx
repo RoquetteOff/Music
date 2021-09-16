@@ -7,7 +7,7 @@ import AdminRoutes from "../../router/listRoute/AdminRoutes";
 export default function Layout() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="py-10">
+      <div className="py-5">
         <main>
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             {/* Replace with your content */}

@@ -9,6 +9,7 @@ const SongRequestForm = (props) => {
     name: "",
     artist: "",
     countVote: null,
+    unavailable: 0,
   });
 
   const changeName = (e) => {
@@ -38,7 +39,6 @@ const SongRequestForm = (props) => {
         .post(`${FETCH}/currentSongs`, {
           ...data,
           countVote: 0,
-          unavailable: "false",
         })
         .then(() => {
           toast.success("Wow so easy!", { position: toast.POSITION.TOP_RIGHT });
