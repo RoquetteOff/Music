@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { FETCH } from "../FETCH";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const SongRequestForm = () => {
+const SongRequestForm = (props) => {
   const [data, setData] = useState({
     name: "",
     artist: "",
@@ -19,18 +21,39 @@ const SongRequestForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${FETCH}/currentSongs`, {
-        ...data,
-        countVote: 0,
-        unavailable: "false",
-      })
-      .catch(function (error) {
-        console.log(error);
+    // on vérifie si l'artiste est déja dans la liste
+    let artistFiltered = [];
+    props.songs.forEach((item) => {
+      if (item.artist.toLowerCase() === data.artist.toLowerCase()) {
+        artistFiltered.push(item);
+      }
+    });
+    // on vérifie si le titre est dans la liste
+    if (
+      artistFiltered.filter(
+        (item) => item.name.toLowerCase() === data.name.toLowerCase()
+      ).length < 1
+    ) {
+      axios
+        .post(`${FETCH}/currentSongs`, {
+          ...data,
+          countVote: 0,
+          unavailable: "false",
+        })
+        .then(() => {
+          toast.success("Wow so easy!", { position: toast.POSITION.TOP_RIGHT });
+        })
+        .catch(function (error) {
+          toast.error("Erreur", { position: toast.POSITION.TOP_RIGHT });
+          console.log(error);
+        });
+    } else {
+      toast.error("Chanson déja dans la liste", {
+        position: toast.POSITION.TOP_RIGHT,
       });
+    }
   };
 
-  console.log(data.name);
   return (
     <div className="max-w-lg mx-auto lg:max-w-none">
       <form
@@ -43,12 +66,13 @@ const SongRequestForm = () => {
               Titre
             </label>
             <input
+              required
               type="text"
-              name="Titre"
-              id="Titre"
-              autoComplete="Titre"
+              name="name"
+              id="name"
+              autoComplete="name"
               className="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-              placeholder="Titre"
+              placeholder="name"
               onChange={(e) => changeName(e)}
             />
           </div>
@@ -57,6 +81,7 @@ const SongRequestForm = () => {
               Artiste
             </label>
             <input
+              required
               id="Artiste"
               name="Artiste"
               type="Artiste"
