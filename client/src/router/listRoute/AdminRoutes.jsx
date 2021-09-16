@@ -8,6 +8,7 @@ export var AdminRoutes = [
     path: "/dashboard/music",
     name: "Music",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: MusicLayout,
   },
   {
@@ -15,6 +16,7 @@ export var AdminRoutes = [
     path: "/dashboard/picture",
     name: "Picture",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: PictureLayout,
   },
   {
@@ -22,14 +24,16 @@ export var AdminRoutes = [
     path: "/dashboard/event",
     name: "Event",
     icon: "mdi mdi-pencil-circle",
+    redirect: false,
     component: EventLayout,
   },
-  //   {
-  //     path: "/panel",
-  //     pathTo: "/dashboard/",
-  //     name: "Dashboard",
-  //     redirect: true,
-  //   },
+  {
+    id: 4,
+    path: "/dashboard",
+    pathTo: "/dashboard/music",
+    name: "Dashboard",
+    redirect: true,
+  },
 ];
 
 export default AdminRoutes;

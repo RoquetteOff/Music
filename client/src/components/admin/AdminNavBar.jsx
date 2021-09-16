@@ -5,23 +5,11 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 import AdminRoutes from "../../router/listRoute/AdminRoutes";
 
-// const user = {
-//   name: "Tom Cook",
-//   email: "tom@example.com",
-//   imageUrl:
-//     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-// };
-// const userNavigation = [
-//   { name: "Your Profile", href: "#" },
-//   { name: "Settings", href: "#" },
-//   { name: "Sign out", href: "#" },
-// ];
-
 const AdminNavBar = () => {
   return (
     <Disclosure as="nav" className="bg-white border-b border-gray-200">
       {({ open }) => (
-        <>
+        <> 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex">
@@ -40,17 +28,19 @@ const AdminNavBar = () => {
                 {/*</div>*/}
 
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                  {AdminRoutes.map((item) => (
-                    <NavLink
-                      to={item.path}
-                      key={item.name}
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium "
-                      activeClassName="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </NavLink>
-                  ))}
+                  {AdminRoutes.filter((item) => item.redirect === false).map(
+                    (item) => (
+                      <NavLink
+                        to={item.path}
+                        key={item.name}
+                        className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium "
+                        activeClassName="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </NavLink>
+                    )
+                  )}
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
@@ -128,15 +118,17 @@ const AdminNavBar = () => {
             <Disclosure.Panel className="sm:hidden">
               <div className="pt-4 pb-3 border-t border-gray-200">
                 <div className="mt-3 space-y-1">
-                  {AdminRoutes.map((item) => (
-                    <NavLink
-                      key={item.name}
-                      to={item.path}
-                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                    >
-                      {item.name}
-                    </NavLink>
-                  ))}
+                  {AdminRoutes.filter((item) => item.redirect === false).map(
+                    (item) => (
+                      <NavLink
+                        key={item.name}
+                        to={item.path}
+                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                      >
+                        {item.name}
+                      </NavLink>
+                    )
+                  )}
                   <div className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 cursor-pointer">
                     Disconnect
                   </div>
