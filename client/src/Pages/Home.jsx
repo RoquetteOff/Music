@@ -41,7 +41,6 @@ const Home = () => {
     axios
       .get(`${FETCH}/app`)
       .then((res) => {
-        console.log(res.data);
         setApp(res.data);
         setAppLoad(true);
       })
@@ -56,6 +55,8 @@ const Home = () => {
     });
   }
 
+  console.log(info);
+
   return (
     <div>
       {info.hasOwnProperty("name") || !info ? (
@@ -63,9 +64,9 @@ const Home = () => {
           <div className="space-y-12">
             <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-                {title}
+                {info.name}
               </h2>
-              <p className="text-xl text-gray-500">{description}</p>
+              {/* <p className="text-xl text-gray-500">{description}</p> */}
             </div>
             <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
               {sections.map((section) => (
