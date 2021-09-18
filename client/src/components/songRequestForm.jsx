@@ -42,6 +42,8 @@ const SongRequestForm = (props) => {
         })
         .then(() => {
           toast.success("Wow so easy!", { position: toast.POSITION.TOP_RIGHT });
+          document.getElementById("name").value = "";
+          document.getElementById("artist").value = "";
         })
         .catch(function (error) {
           toast.error("Erreur", { position: toast.POSITION.TOP_RIGHT });
@@ -72,7 +74,7 @@ const SongRequestForm = (props) => {
               id="name"
               autoComplete="name"
               className="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-              placeholder="name"
+              placeholder="Titre"
               onChange={(e) => changeName(e)}
             />
           </div>
@@ -82,9 +84,9 @@ const SongRequestForm = (props) => {
             </label>
             <input
               required
-              id="Artiste"
+              id="artist"
               name="Artiste"
-              type="Artiste"
+              type="text"
               autoComplete="Artiste"
               className="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-400 rounded-md"
               placeholder="Artiste"
