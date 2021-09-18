@@ -81,13 +81,8 @@ const MusicLayout = () => {
   };
 
   const handleUnavailableMusic = (id) => {
-    // je recupere le status de ma musique
-    let song = songs.filter((song) => song.id === id)[0];
-    let status = song.unavailable === 0 ? 1 : 0;
-    // je stock le text en string en fonction de son etat
-    let statusMsg = song.unavailable === 0 ? "indisponible" : "disponible";
     MySwal.fire({
-      title: `Êtes-vous sûr de vouloir mettre cette chanson en ${statusMsg}`,
+      title: `Êtes-vous sûr de vouloir mettre cette chanson en indisponible?`,
       showCancelButton: true,
       confirmButtonText: "Valider",
       cancelButtonText: "Annuler",
@@ -96,7 +91,35 @@ const MusicLayout = () => {
         axios
           .put(
             `${FETCH}/currentsongs/${id}`,
-            { unavailable: status },
+            { unavailable: 1, isNew: 0, isValid: 0, countVote: -1 },
+            {
+              headers: {
+                "x-access-token": token,
+              },
+            }
+          )
+          .then(() => {
+            Swal.fire("Modifié!", "", "success");
+          })
+          .catch(function (error) {
+            Swal.fire("Erreur!", "", "error");
+          });
+      }
+    });
+  };
+
+  const handleValidMusic = (id) => {
+    MySwal.fire({
+      title: `Êtes-vous sûr de vouloir mettre cette chanson en validé?`,
+      showCancelButton: true,
+      confirmButtonText: "Valider",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .put(
+            `${FETCH}/currentsongs/${id}`,
+            { unavailable: 0, isNew: 0, isValid: 1, countVote: -1 },
             {
               headers: {
                 "x-access-token": token,
@@ -172,35 +195,44 @@ const MusicLayout = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={
-                          song.unavailable === 1
-                            ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
-                            : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                        }
-                      >
-                        {song.unavailable === 1 ? "Indispo" : "Dispo"}
-                      </span>
-                    </td>
-
-                    <td className="px-3 py-4 whitespace-nowrap ">
-                      <div
-                        className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
-                        onClick={() => handleDeleteMusic(song.id)}
-                      >
-                        <BsFillTrashFill size={24} />
-                      </div>
+                      {song.isNew ? (
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          En attente
+                        </span>
+                      ) : song.unavailable ? (
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Indisponible
+                        </span>
+                      ) : song.isValid ? (
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Validé
+                        </span>
+                      ) : null}
                     </td>
                     <td className=" py-4 whitespace-nowrap ">
-                      <div
-                        className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
-                        onClick={() => handleUnavailableMusic(song.id)}
-                      >
-                        {song.unavailable === 0 ? (
+                      <div className="flex items-center justify-center flex-wrap">
+                        <div
+                          className="text-indigo-600 hover:text-indigo-900 cursor-pointer mx-2 my-1"
+                          onClick={() => handleDeleteMusic(song.id)}
+                        >
+                          <BsFillTrashFill size={24} />
+                        </div>
+                        <div
+                          className="text-indigo-600 hover:text-indigo-900 cursor-pointer mx-2 my-1"
+                          onClick={() => handleUnavailableMusic(song.id)}
+                        >
                           <CgUnavailable size={25} />
-                        ) : (
+
+                          {/* <AiOutlineCheck size={25} /> */}
+                        </div>
+                        <div
+                          className="text-indigo-600 hover:text-indigo-900 cursor-pointer mx-2 my-1"
+                          onClick={() => handleValidMusic(song.id)}
+                        >
+                          {/* <CgUnavailable size={25} /> */}
+
                           <AiOutlineCheck size={25} />
-                        )}
+                        </div>
                       </div>
                     </td>
                   </tr>
