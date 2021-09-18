@@ -23,6 +23,13 @@ export default function SongRequestBloc() {
       });
   });
 
+  const sortSongs = () => {
+    let test = songs.sort((a, b) =>
+      a.countVote > b.countVote ? -1 : b.countVote > a.countVote ? 1 : 0
+    );
+    return test;
+  };
+
   return (
     <div className="pb-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-10  lg:rounded-md bg-white shadow">
       {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
@@ -35,7 +42,7 @@ export default function SongRequestBloc() {
         <div className="bg-white py-8 px-4 sm:px-6 lg:col-span-3  lg:px-8 xl:pl-12">
           <SongRequestForm songs={songs} />
         </div>
-        <SongRequestInCurrent isLoading={isLoading} songs={songs} />
+        <SongRequestInCurrent isLoading={isLoading} songs={sortSongs()} />
       </div>
     </div>
   );
