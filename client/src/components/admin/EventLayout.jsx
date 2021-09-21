@@ -263,9 +263,9 @@ const EventLayout = () => {
             <div className="mt-2 max-w-xl text-sm text-gray-500">
               <p>Modifier l'image d'en-tête</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-col sm:flex-row">
               <form
-                className="mt-5 sm:flex sm:items-center"
+                className="mt-5 flex items-center space-x-4"
                 onSubmit={(e) => changeImageTop(e)}
               >
                 <div className=" sm:max-w-xs">
@@ -273,8 +273,8 @@ const EventLayout = () => {
                     htmlFor="file-upload"
                     className={
                       imagePreview.file !== null
-                        ? "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-green-600 rounded-md w-28"
-                        : "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-gray-300 rounded-md w-28"
+                        ? "flex justify-between items-center cursor-pointer px-4 py-2 border-2 border-green-600 rounded-md w-28"
+                        : "flex justify-between items-center cursor-pointer px-4 py-2 border-2 border-gray-300 rounded-md w-28"
                     }
                   >
                     <i className="">
@@ -315,27 +315,25 @@ const EventLayout = () => {
                   type="submit"
                   className={
                     imagePreview.file !== null
-                      ? "text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                      : " cursor-not-allowed text-white bg-gray-600  mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                      ? "text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md sm:ml-3 sm:w-auto sm:text-sm"
+                      : " cursor-not-allowed text-white bg-gray-400 inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md sm:ml-3 sm:w-auto sm:text-sm"
                   }
                 >
                   Modifier
                 </button>
               </form>
               {currentFile !== null || currentFile !== undefined ? (
-                <div>
-                  <img
-                    alt="banniere"
-                    className="w-52"
-                    src={
-                      imagePreview.imagePreviewUrl
-                        ? imagePreview.imagePreviewUrl
-                        : eventCurrent.bg_music !== null
-                        ? `/uploads/${eventCurrent.bg_music}`
-                        : MusicBandeau
-                    }
-                  />
-                </div>
+                <img
+                  alt="banniere"
+                  className="w-52 rounded-sm mt-2 sm:mt-0 self-center"
+                  src={
+                    imagePreview.imagePreviewUrl
+                      ? imagePreview.imagePreviewUrl
+                      : eventCurrent.bg_music !== null
+                      ? `/uploads/${eventCurrent.bg_music}`
+                      : MusicBandeau
+                  }
+                />
               ) : null}
             </div>
           </div>
