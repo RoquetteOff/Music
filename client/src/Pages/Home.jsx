@@ -6,12 +6,10 @@ import axios from "axios";
 import { FETCH } from "../FETCH";
 import { FiLoader } from "react-icons/fi";
 
-// titre de la page
-const title = "Titre";
 
 // description
-const description =
-  "Odio nisi, lectus dis nulla. Ultrices maecenas vitae rutrum dolor ultricies donec risus sodales. Tempus quis et";
+// const description =
+//   "Odio nisi, lectus dis nulla. Ultrices maecenas vitae rutrum dolor ultricies donec risus sodales. Tempus quis et";
 
 // section
 const sections = [
@@ -36,7 +34,6 @@ const Home = () => {
   //Verification de la soirée
   const [event, setEvent] = useState();
   const [eventLoad, setEventLoad] = useState(false);
-  let info = {};
 
   useEffect(() => {
     axios
