@@ -10,6 +10,7 @@ import MusicBandeau from "../../assets/musicbandeau.jpg";
 const MySwal = withReactContent(Swal);
 
 const EventLayout = () => {
+  const token = localStorage.getItem("token");
   const [dataLoad, setDataLoad] = useState(false);
   const [newEvent, setNewEvent] = useState("");
   const [eventCurrent, setEventCurrent] = useState();
@@ -18,7 +19,7 @@ const EventLayout = () => {
     imagePreviewUrl: null,
   });
 
-  const [file, setFile] = useState(null);
+  const [currentFile, setCurrentFile] = useState(null);
 
   // ajout d'un nouvel event
   const addNewEvent = (e) => {
@@ -107,16 +108,42 @@ const EventLayout = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         new Promise((resolve, reject) => {
+          const extension = currentFile.name.split(".").pop();
+          const nameFile = "bg-music." + extension;
+
           const formData = new FormData();
-          formData.append("file", file);
+          formData.append("file", currentFile);
           axios
-            .post(`${FETCH}/upload/bg`, formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
+            .post(
+              `${FETCH}/upload/bg/${eventCurrent.id}`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  "x-access-token": token,
+                },
               },
-            })
+              { oldFileName: eventCurrent.bg_music }
+            )
             .then((res) => {
-              resolve(res);
+              axios
+                .put(
+                  `${FETCH}/events/${eventCurrent.id}`,
+                  { bg_music: nameFile },
+                  {
+                    headers: {
+                      "x-access-token": token,
+                    },
+                  }
+                )
+                .then(() => {
+                  Swal.fire("Modifié!", "", "success");
+                  resolve(res);
+                })
+                .catch(function (error) {
+                  Swal.fire("Erreur!", "", "error");
+                  reject(error);
+                });
             })
             .catch(function (error) {
               reject(error);
@@ -130,17 +157,10 @@ const EventLayout = () => {
           });
       }
     });
-    console.log(e);
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
 
+  // preview image
   const handleImageChange = (e) => {
-    setFile(e.target.files[0]);
-
-    console.log("test dans la fonction", e.target.files[0]);
-
     if (e.target.files[0] !== undefined) {
       let reader = new FileReader();
       let file = e.target.files[0];
@@ -152,6 +172,7 @@ const EventLayout = () => {
         });
       };
 
+      setCurrentFile(file);
       reader.readAsDataURL(file);
     } else {
       setImagePreview({
@@ -161,7 +182,9 @@ const EventLayout = () => {
     }
   };
 
-  console.log(eventCurrent);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -249,13 +272,13 @@ const EventLayout = () => {
                   <label
                     htmlFor="file-upload"
                     className={
-                      file !== null && file !== undefined
+                      currentFile !== null && currentFile !== undefined
                         ? "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-green-600 rounded-md w-28"
                         : "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-gray-300 rounded-md w-28"
                     }
                   >
                     <i className="">
-                      {file !== null && file !== undefined ? (
+                      {currentFile !== null && currentFile !== undefined ? (
                         <FaRegCheckSquare
                           size={20}
                           className="text-green-600"
@@ -269,7 +292,7 @@ const EventLayout = () => {
                     </i>
                     <span
                       className={
-                        file !== null && file !== undefined
+                        currentFile !== null && currentFile !== undefined
                           ? "text-green-600"
                           : "text-gray-600"
                       }
@@ -294,7 +317,7 @@ const EventLayout = () => {
                   Modifier
                 </button>
               </form>
-              {file !== null || file !== undefined ? (
+              {currentFile !== null || currentFile !== undefined ? (
                 <div>
                   <img
                     className="w-52"
