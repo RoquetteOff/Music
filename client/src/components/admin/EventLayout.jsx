@@ -12,7 +12,7 @@ const MySwal = withReactContent(Swal);
 const EventLayout = () => {
   const [dataLoad, setDataLoad] = useState(false);
   const [newEvent, setNewEvent] = useState("");
-  const [eventCurrent, setEventCurrent] = useState({});
+  const [eventCurrent, setEventCurrent] = useState();
   const [imagePreview, setImagePreview] = useState({
     file: null,
     imagePreviewUrl: null,
@@ -160,6 +160,7 @@ const EventLayout = () => {
       });
     }
   };
+
   console.log(eventCurrent);
 
   return (
@@ -230,77 +231,85 @@ const EventLayout = () => {
         )
       ) : null}
 
-      <div className="bg-white shadow sm:rounded-lg mt-5">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Image d'en-tete
-          </h3>
-          <div className="mt-2 max-w-xl text-sm text-gray-500">
-            <p>Modifier l'image d'en-tête</p>
-          </div>
-          <div className="flex justify-between">
-            <form
-              className="mt-5 sm:flex sm:items-center"
-              onSubmit={(e) => changeImageTop(e)}
-            >
-              <div className=" sm:max-w-xs">
-                <label
-                  htmlFor="file-upload"
-                  className={
-                    file !== null && file !== undefined
-                      ? "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-green-600 rounded-md w-28"
-                      : "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-gray-300 rounded-md w-28"
-                  }
-                >
-                  <i className="">
-                    {file !== null && file !== undefined ? (
-                      <FaRegCheckSquare size={20} className="text-green-600" />
-                    ) : (
-                      <AiOutlineDownload size={20} className="text-gray-600" />
-                    )}
-                  </i>
-                  <span
+      {eventCurrent === null || eventCurrent === undefined ? null : (
+        <div className="bg-white shadow sm:rounded-lg mt-5">
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              Image d'en-tete
+            </h3>
+            <div className="mt-2 max-w-xl text-sm text-gray-500">
+              <p>Modifier l'image d'en-tête</p>
+            </div>
+            <div className="flex justify-between">
+              <form
+                className="mt-5 sm:flex sm:items-center"
+                onSubmit={(e) => changeImageTop(e)}
+              >
+                <div className=" sm:max-w-xs">
+                  <label
+                    htmlFor="file-upload"
                     className={
                       file !== null && file !== undefined
-                        ? "text-green-600"
-                        : "text-gray-600"
+                        ? "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-green-600 rounded-md w-28"
+                        : "flex justify-between items-center cursor-pointer py-1 px-3 border-2 border-gray-300 rounded-md w-28"
                     }
                   >
-                    Upload
-                  </span>
-                </label>
-                <input
-                  accept=".png,.jpeg,.gif,.jpg"
-                  onChange={(e) => {
-                    handleImageChange(e);
-                  }}
-                  id="file-upload"
-                  type="file"
-                  className="hidden"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-              >
-                Modifier
-              </button>
-            </form>
-            {file !== null || file !== undefined ? (
-              <div>
-                <img
-                  className="w-52"
-                  src={
-                    imagePreview.imagePreviewUrl
-                      ? imagePreview.imagePreviewUrl
-                      : MusicBandeau
-                  }
-                />
-              </div>
-            ) : null}
+                    <i className="">
+                      {file !== null && file !== undefined ? (
+                        <FaRegCheckSquare
+                          size={20}
+                          className="text-green-600"
+                        />
+                      ) : (
+                        <AiOutlineDownload
+                          size={20}
+                          className="text-gray-600"
+                        />
+                      )}
+                    </i>
+                    <span
+                      className={
+                        file !== null && file !== undefined
+                          ? "text-green-600"
+                          : "text-gray-600"
+                      }
+                    >
+                      Upload
+                    </span>
+                  </label>
+                  <input
+                    accept=".png,.jpeg,.gif,.jpg"
+                    onChange={(e) => {
+                      handleImageChange(e);
+                    }}
+                    id="file-upload"
+                    type="file"
+                    className="hidden"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Modifier
+                </button>
+              </form>
+              {file !== null || file !== undefined ? (
+                <div>
+                  <img
+                    className="w-52"
+                    src={
+                      imagePreview.imagePreviewUrl
+                        ? imagePreview.imagePreviewUrl
+                        : MusicBandeau
+                    }
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
