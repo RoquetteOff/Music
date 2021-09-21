@@ -14,7 +14,6 @@ const MusicLayout = () => {
   const token = localStorage.getItem("token");
 
   const [songs, setSongs] = useState([]);
-  const [isLoading, setLoading] = useState(false);
 
   //Fecth liste de musique
   const fetchData = () => {
@@ -22,7 +21,6 @@ const MusicLayout = () => {
       .get(`${FETCH}/currentSongs`)
       .then((res) => {
         setSongs(res.data);
-        setLoading(true);
       })
       .catch(function (erreur) {
         console.log(erreur);

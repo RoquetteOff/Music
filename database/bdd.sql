@@ -23,10 +23,10 @@ CREATE TABLE `currentsongs` (
   `isNew` boolean NOT NULL
 );
 
-CREATE TABLE `app` (
+CREATE TABLE `events` (
   `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `text` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `bg_music` varchar(255) NULL
 );
 
 CREATE TABLE `users` (

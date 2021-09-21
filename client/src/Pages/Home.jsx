@@ -6,12 +6,10 @@ import axios from "axios";
 import { FETCH } from "../FETCH";
 import { FiLoader } from "react-icons/fi";
 
-// titre de la page
-const title = "Titre";
 
 // description
-const description =
-  "Odio nisi, lectus dis nulla. Ultrices maecenas vitae rutrum dolor ultricies donec risus sodales. Tempus quis et";
+// const description =
+//   "Odio nisi, lectus dis nulla. Ultrices maecenas vitae rutrum dolor ultricies donec risus sodales. Tempus quis et";
 
 // section
 const sections = [
@@ -23,28 +21,27 @@ const sections = [
     path: "/songrequest",
   },
   // {
-  //     id: 2,
-  //     name: "Wall Picture",
-  //     description: "Nikoumouk l'image",
-  //     imageUrl:
-  //         "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-  //     path: "",
+  //   id: 2,
+  //   name: "Wall Picture",
+  //   description: "Nikoumouk l'image",
+  //   imageUrl:
+  //     "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+  //   path: "/wallpicture",
   // },
 ];
 
 const Home = () => {
   //Verification de la soirée
-  const [app, setApp] = useState({});
-  const [appLoad, setAppLoad] = useState(false);
-  let info = {};
+  const [event, setEvent] = useState();
+  const [eventLoad, setEventLoad] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${FETCH}/app`)
+      .get(`${FETCH}/events`)
       .then((res) => {
-        setApp(res.data);
+        setEvent(res.data);
         setTimeout(function () {
-          setAppLoad(true);
+          setEventLoad(true);
         }, 2000);
       })
       .catch(function (erreur) {
@@ -52,23 +49,15 @@ const Home = () => {
       });
   }, []);
 
-  if (appLoad) {
-    app.forEach((element) => {
-      info[element.type] = element.text;
-    });
-  }
-
-  console.log(info);
-
   return (
     <div>
-      {appLoad ? (
-        info.hasOwnProperty("name") || !info ? (
+      {eventLoad ? (
+        event.length > 0 ? (
           <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
             <div className="space-y-12">
               <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                 <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-                  {info.name}
+                  {event[0].name}
                 </h2>
                 {/* <p className="text-xl text-gray-500">{description}</p> */}
               </div>
