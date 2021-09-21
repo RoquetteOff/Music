@@ -9,6 +9,7 @@ import Layout from "./Pages/admin/layout";
 import RouteVisitor from "./router/RouteVisitor";
 import RouteLogin from "./router/RoutesLogin";
 import RouteAdmin from "./router/RouteAdmin";
+import WallPicture from "./Pages/WallPicture.jsx";
 
 function App() {
   const [isAuthVerify, setAuth] = useState(false);
@@ -74,6 +75,7 @@ function App() {
         <Switch>
           <RouteVisitor exact path="/" component={Home} />
           <RouteVisitor path="/songrequest" component={SongRequest} />
+          <RouteVisitor path="/wallpicture" component={WallPicture} />
           <RouteLogin path="/login" component={Login} isAuth={isAuthVerify} />
           <RouteAdmin
             path="/dashboard"
