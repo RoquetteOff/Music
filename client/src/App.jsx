@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FETCH } from "./FETCH";
 import Home from "./Pages/Home";
-import SongRequest from "./Pages/SongRequest";
 import Login from "./Pages/login";
 import Layout from "./Pages/admin/layout";
 import RouteVisitor from "./router/RouteVisitor";
@@ -74,7 +73,6 @@ function App() {
       <Router>
         <Switch>
           <RouteVisitor exact path="/" component={Home} />
-          <RouteVisitor path="/songrequest" component={SongRequest} />
           <RouteVisitor path="/wallpicture" component={WallPicture} />
           <RouteLogin path="/login" component={Login} isAuth={isAuthVerify} />
           <RouteAdmin
