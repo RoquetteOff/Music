@@ -9,6 +9,7 @@ export default function SongRequestBloc() {
   // useState
   const [songs, setSongs] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [titleIncurent, setTitleIncurent] = useState("");
 
   //Fecth liste de musique
   useEffect(() => {
@@ -23,11 +24,23 @@ export default function SongRequestBloc() {
       });
   });
 
+  //fetch titre en cours
+  useEffect(() => {
+    axios
+      .get(`${FETCH}/app/songinprogress`)
+      .then((res) => {
+        setTitleIncurent(res.data.app.titleincurent);
+      })
+      .catch(function (erreur) {
+        console.log(erreur);
+      });
+  });
+
   const sortSongs = () => {
-    let test = songs.sort((a, b) =>
+    let sortedList = songs.sort((a, b) =>
       a.countVote > b.countVote ? -1 : b.countVote > a.countVote ? 1 : 0
     );
-    return test;
+    return sortedList;
   };
 
   return (
@@ -36,7 +49,7 @@ export default function SongRequestBloc() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Titre en cours
+            {titleIncurent}
           </h3>
         </div>
         <div className="bg-white py-8 px-4 sm:px-6 lg:col-span-3  lg:px-8 xl:pl-12">
