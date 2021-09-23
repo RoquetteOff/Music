@@ -15,7 +15,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE `currentsongs` (
   `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `artist` varchar(255) NOT NULL,
   `countVote` varchar(255) NOT NULL,
   `unavailable` boolean NOT NULL, 
