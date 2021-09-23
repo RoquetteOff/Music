@@ -234,6 +234,12 @@ const MusicLayout = () => {
                   >
                     Status
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Vote
+                  </th>
                   <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">Edit</span>
                   </th>
@@ -268,6 +274,11 @@ const MusicLayout = () => {
                           Validé
                         </span>
                       ) : null}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="text-sm text-gray-500">
+                        {song.countVote >= 0 ? song.countVote : null}
+                      </span>
                     </td>
                     <td className=" py-4 whitespace-nowrap ">
                       <div className="flex items-center justify-center flex-wrap">
