@@ -4,12 +4,20 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 import AdminRoutes from "../../router/listRoute/AdminRoutes";
+import { useHistory } from "react-router-dom";
 
 const AdminNavBar = () => {
+  let history = useHistory();
+
+  const disconect = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
+
   return (
     <Disclosure as="nav" className="bg-white border-b border-gray-200">
       {({ open }) => (
-        <> 
+        <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex">
@@ -45,11 +53,15 @@ const AdminNavBar = () => {
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 <button
+                  onClick={() => {
+                    disconect();
+                  }}
                   type="button"
                   className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  se deconecter
+                  {/* <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                 </button>
                 {/* Profile dropdown */}
                 {/* <Menu as="div" className="ml-3 relative">
@@ -129,7 +141,12 @@ const AdminNavBar = () => {
                       </NavLink>
                     )
                   )}
-                  <div className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 cursor-pointer">
+                  <div
+                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      disconect();
+                    }}
+                  >
                     Disconnect
                   </div>
                 </div>
