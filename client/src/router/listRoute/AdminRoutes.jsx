@@ -6,7 +6,7 @@ export var AdminRoutes = [
   {
     id: 1,
     path: "/dashboard/music",
-    name: "Music",
+    name: "Musique",
     icon: "mdi mdi-pencil-circle",
     redirect: false,
     component: MusicLayout,
@@ -14,7 +14,7 @@ export var AdminRoutes = [
   {
     id: 2,
     path: "/dashboard/picture",
-    name: "Picture",
+    name: "Photo",
     icon: "mdi mdi-pencil-circle",
     redirect: false,
     component: PictureLayout,
