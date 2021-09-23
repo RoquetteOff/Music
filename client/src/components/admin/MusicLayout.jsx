@@ -4,6 +4,7 @@ import { FETCH } from "../../FETCH";
 import { BsFillTrashFill } from "react-icons/bs";
 import { CgUnavailable } from "react-icons/cg";
 import { AiOutlineCheck } from "react-icons/ai";
+import { removeInput } from "../common/removeInput";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -14,6 +15,7 @@ const MusicLayout = () => {
   const token = localStorage.getItem("token");
 
   const [songs, setSongs] = useState([]);
+  const [songsInCurrent, setSongsInCurrent] = useState(null);
 
   //Fecth liste de musique
   const fetchData = () => {
@@ -133,15 +135,75 @@ const MusicLayout = () => {
       }
     });
   };
+  // changer titre en cours
+  const handleChangeTitleInCurrent = () => {
+    MySwal.fire({
+      title: `Êtes-vous sûr de vouloir modifier le titre en cours ?`,
+      showCancelButton: true,
+      confirmButtonText: "Valider",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(songsInCurrent);
+        axios
+          .put(
+            `${FETCH}/app/songinprogress/0`,
+            { titleincurent: songsInCurrent },
+            {
+              headers: {
+                "x-access-token": token,
+              },
+            }
+          )
+          .then(() => {
+            Swal.fire("Modifié!", "", "success");
+            removeInput(["title"]);
+            setSongsInCurrent("");
+            console.log(songsInCurrent);
+          })
+          .catch(function (error) {
+            Swal.fire("Erreur!", "", "error");
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <div className="flex flex-col">
       <div className="w-full">
-        <div className="flex justify-end mb-5">
+        <div className="flex justify-between mb-5">
+          <div className="flex space-x-3">
+            <input
+              onChange={(e) => {
+                setSongsInCurrent(e.target.value);
+              }}
+              type="text"
+              name="title"
+              id="title"
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+              placeholder="Titre en cours"
+            />
+            <button
+              disabled={
+                songsInCurrent === null || songsInCurrent === "" ? true : false
+              }
+              onClick={() => {
+                handleChangeTitleInCurrent();
+              }}
+              type="button"
+              className={
+                songsInCurrent === null || songsInCurrent === ""
+                  ? "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-gray-700 bg-gray-100 cursor-not-allowed"
+                  : "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              }
+            >
+              Valider
+            </button>
+          </div>
           <button
             onClick={() => {
               handleAllDelete();
